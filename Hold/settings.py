@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
 from pathlib import Path
+import os
+import dj_database_url
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,12 +22,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-tkvhbq_hz$ua83ta$+$wq6ktebt2tkvi$=o$m56!n4nwp1=*9s'
+SECRET_KEY =  os.environ.get('DJANGO_SECRET_KEY', 'default-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG =  os.environ.get('DEBUG', 'False') == 'True'
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -116,9 +118,10 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/5.2/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [BASE_DIR / 'static']   # โฟลเดอร์ static ของเรา
-STATIC_ROOT = BASE_DIR / 'staticfiles'     # สำหรับ production (collectstatic)
-
+STATICFILES_DIRS = [BASE_DIR / 'static']   
+STATIC_ROOT = os.path.join(BASE_DIR,'staticfiles')
+STATICFILES_STORAGE ='whitenoise.storage.CompressedManifestStaticFilesStorage'
+# Media files
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
 
@@ -126,3 +129,19 @@ MEDIA_ROOT = BASE_DIR / 'media'
 # https://docs.djangoproject.com/en/5.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+MIDDLEWARE =[
+ "django.middleware.security.SecurityMiddleware",
+ "whitenoise.middleware.WhiteNoiseMiddleware",
+  if not os.environ.get('DEBUG', 'False') == 'True':
+ DATABASES ={
+ 'default': dj_database_url.parse(os.environ.get('DATABASE_URL'))
+ }
+ else:
+ DATABASES ={
+ 'default': {
+ 'ENGINE': 'django.db.backends.sqlite3',
+ 'NAME': 'db.sqlite3',
+ }
+ }
+]
