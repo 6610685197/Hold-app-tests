@@ -22,13 +22,26 @@
 
         <!-- Right menu -->
         <div class="flex items-center gap-2">
-          <a
-            href="{% url 'about' %}"
+          <a href="{% url 'about' %}"
             class="inline-flex items-center rounded-lg border border-gray-300 px-3 py-1.5 text-sm
-                   hover:bg-gray-100 transition"
-          >
-            About
+                   hover:bg-gray-100 transition">About
           </a>
+          {% if user.is_authenticated %}
+          <span class="text-sm text-gray-700">Hi, {{ user.username }}</span>
+          <a href="{% url 'profile' %}" class="text-sm px-3 py-1.5 rounded-lg border hover:bg-gray-100 transition">
+            Profile
+          </a>
+          <a href="{% url 'logout' %}" class="text-sm px-3 py-1.5 rounded-lg border hover:bg-gray-100 transition">
+            Logout
+          </a>
+          {% else %}
+          <a href="{% url 'login' %}" class="text-sm px-3 py-1.5 rounded-lg border hover:bg-gray-100 transition">
+            Login
+          </a>
+          <a href="{% url 'register' %}" class="text-sm px-3 py-1.5 rounded-lg bg-gray-900 text-white hover:bg-gray-700 transition">
+            Register
+          </a>
+          {% endif %}
         </div>
       </div>
     </div>
