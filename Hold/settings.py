@@ -146,13 +146,6 @@ if not os.environ.get("DEBUG", "False") == "True":
             "postgresql://holddb_user:wKKvaCjkpcyl8qbtHW8RAGoIM8JBrncx@dpg-d43lftjipnbc73c27e80-a.singapore-postgres.render.com/holddb"
         )
     }
-else:
-    DATABASES = {
-        "default": {
-            "ENGINE": "django.db.backends.sqlite3",
-            "NAME": "db.sqlite3",
-        }
-    }
 
 # accounts settings
 
