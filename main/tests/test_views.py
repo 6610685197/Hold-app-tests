@@ -7,7 +7,7 @@ class MainViewsTests(TestCase):
     def test_home_page_loads(self):
         response = self.client.get(reverse("home"))
         self.assertEqual(response.status_code, 200)
-        self.assertTemplateUsed(response, "pages/home.html")
+        self.assertTemplateUsed(response, "RandomFood/home.html")
 
     # About page test
     def test_about_page_loads(self):
