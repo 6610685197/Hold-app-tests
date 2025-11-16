@@ -30,6 +30,7 @@ class FoodAdmin(admin.ModelAdmin):
         "protein_in_food",
         "carb_in_food",
         "fat_in_food",
+        "favorite_count",
     )
     list_filter = ("category", "food_types")
     search_fields = ("name", "ingredients", "description")
